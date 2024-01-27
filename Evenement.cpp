@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Evenement.hpp"
+#include <sstream>
 
 using namespace std;
 
@@ -57,6 +58,16 @@ string EvenementSportif:: getGagnant() const{
 
 string EvenementSportif:: getNomEvenement() const{
     return _nomEvenement;
+}
+
+std::string EvenementSportif::getDetails() const {
+    std::ostringstream detailsStream;
+    detailsStream << "Nom de l'événement : " << _nomEvenement << "\n";
+    detailsStream << "Participants :\n";
+    for (const Participant& participant : _participants) {
+        detailsStream << "- Nom : " << participant.getNom() << ", Cote : " << participant.getCote() << "\n";
+    }
+    return detailsStream.str();
 }
 
 

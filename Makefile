@@ -3,7 +3,7 @@ CFLAGS = -std=c++11 -Wall
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Liste des fichiers source
-SRCS = Evenement.cpp Utilisateur.cpp Pari.cpp Participant.cpp main.cpp
+SRCS = Evenement.cpp Utilisateur.cpp Pari.cpp Participant.cpp Fenetre.cpp main.cpp 
 
 # Liste des fichiers objets générés à partir des fichiers source
 OBJS = $(SRCS:.cpp=.o)

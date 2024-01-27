@@ -7,12 +7,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <ctime>
+#include <sstream>
 
 
 
 #include "Utilisateur.hpp"
+#include "Fenetre.hpp"
 
-
+/*
+//Test sans interface graphique
 int main(){
     srand(time(NULL)); // Initialisation du générateur de nombres aléatoires
 
@@ -139,4 +142,102 @@ int main(){
 
     return 0;
 }
+*/
 
+
+//Test avec interface graphqque
+int main() {
+    srand(time(NULL)); // Initialisation du générateur de nombres aléatoires
+
+    Utilisateur utilisateur1("Alice");
+    Utilisateur utilisateur2("Bob");
+
+    // Création d'événements d'athlétisme et de natation avec leurs participants
+    std::vector<Participant> participantsAthletisme = {
+        Participant("Usain Bolt", 2.0),
+        Participant("Carl Lewis", 1.8),
+        Participant("Jesse Owens", 1.5)
+    };
+    Athletisme athletisme("100m hommes", participantsAthletisme);
+
+    std::vector<Participant> participantsNatation = {
+        Participant("Michael Phelps", 1.7),
+        Participant("Ian Thorpe", 1.9),
+        Participant("Katie Ledecky", 2.2)
+    };
+    Natation natation("Relais 4x100m nage libre", participantsNatation, true);
+
+    // Affichage des détails des événements
+    std::string detailsAthletisme = athletisme.getDetails();
+    std::string detailsNatation = natation.getDetails();
+
+    // Création de la fenêtre SFML
+    sf::RenderWindow window(sf::VideoMode(800, 600), "BETS");
+
+    // Création des polices et des textes pour afficher les détails des événements
+    sf::Font font;
+    if (!font.loadFromFile("Poppins-Black.ttf")) {
+        std::cerr << "Impossible de charger la police Arial" << std::endl;
+        return 1;
+    }
+
+    sf::Text textAthletisme(detailsAthletisme, font, 20);
+    textAthletisme.setPosition(50.f, 50.f);
+
+    sf::Text textNatation(detailsNatation, font, 20);
+    textNatation.setPosition(50.f, 200.f);
+
+   // Création du bouton pour parier
+sf::RectangleShape bouton(sf::Vector2f(200.f, 50.f)); // Définissez la taille du bouton
+bouton.setFillColor(sf::Color::Green); // Couleur du bouton
+bouton.setPosition(50.f, 500.f); // Position du bouton
+
+// Création du texte pour le bouton
+sf::Text textBouton("Parier", font, 20);
+textBouton.setPosition(75.f, 510.f); // Position du texte à l'intérieur du bouton
+
+// Création du texte pour afficher l'événement
+sf::Text textEvenement("Détails de l'événement", font, 24);
+textEvenement.setPosition(50.f, 350.f); // Position du texte pour l'événement
+
+
+// Boucle principale de rendu
+while (window.isOpen()) {
+    // Gestion des événements
+    sf::Event event;
+    while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+        }
+
+        // Gestion du clic de souris pour le bouton
+        // Gestion du clic de souris pour le bouton
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2f mousePositionF(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y));
+                if (bouton.getGlobalBounds().contains(mousePositionF)) {
+                    // Action à effectuer lors du clic sur le bouton (par exemple, ouvrir la fenêtre de pari)
+                    FenetrePari fenetrePari(window);
+                    fenetrePari.afficher();
+                }
+            }
+        }
+    }
+
+    // Effacement de la fenêtre
+    window.clear();
+
+    // Dessin des éléments
+    window.draw(textAthletisme);
+    window.draw(textNatation);
+    window.draw(textEvenement);
+    window.draw(bouton);
+    window.draw(textBouton);
+
+    // Affichage de la fenêtre
+    window.display();
+}
+
+    return 0;
+}

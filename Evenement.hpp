@@ -14,6 +14,7 @@ public:
     void majResultats();
     std::string getGagnant() const;
     std:: string getNomEvenement() const;
+    std::string getDetails() const;
 
     virtual void afficherDetails() const = 0;
 
