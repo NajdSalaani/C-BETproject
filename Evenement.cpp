@@ -9,7 +9,7 @@ using namespace std;
 EvenementSportif::EvenementSportif() {}
 
 
-EvenementSportif::EvenementSportif(const std::string& nom, const std::vector<Participant>& participants)
+EvenementSportif::EvenementSportif(int id, const std::string& nom, const std::vector<Participant>& participants)
     : _nomEvenement(nom), _participants(participants), _gagnant("--") {}
 
 
@@ -38,18 +38,20 @@ void EvenementSportif:: ajoutEvenement(){
 }
 
 
-void EvenementSportif::majResultats(){
-    std::cout << "Résultats de l'événement " << _nomEvenement << std::endl;
+std::string EvenementSportif::majResultats(){
+    std::ostringstream detailStream;
+    detailStream << "Resultats de l'evenement " << _nomEvenement << "\n";
     if (_participants.empty()) {
-        std::cout << "Aucun participant dans l'événement." << std::endl;
+        detailStream << "Aucun participant dans l'evenement." << "\n";
     } 
     else {
         // Utilisation de rand() pour générer un indice aléatoire
         int indiceGagnant = rand() % _participants.size();
 
-        std::cout << "Le gagnant est : " << _participants[indiceGagnant].getNom() << std::endl << std::endl;
+        detailStream << "Le gagnant est : " << _participants[indiceGagnant].getNom() << "\n" << "\n";
         _gagnant = _participants[indiceGagnant].getNom();
     }
+    return detailStream.str();
 }
 
 string EvenementSportif:: getGagnant() const{
@@ -62,7 +64,7 @@ string EvenementSportif:: getNomEvenement() const{
 
 std::string EvenementSportif::getDetails() const {
     std::ostringstream detailsStream;
-    detailsStream << "Nom de l'événement : " << _nomEvenement << "\n";
+    detailsStream << "Nom de l'evenement : " << _nomEvenement << "\n";
     detailsStream << "Participants :\n";
     for (const Participant& participant : _participants) {
         detailsStream << "- Nom : " << participant.getNom() << ", Cote : " << participant.getCote() << "\n";
@@ -75,8 +77,8 @@ std::string EvenementSportif::getDetails() const {
 
 
 
-Athletisme::Athletisme(const std::string& nom, const std::vector<Participant>& participants)
-    : EvenementSportif(nom, participants) {}
+Athletisme::Athletisme(int id, const std::string& nom, const std::vector<Participant>& participants)
+    : EvenementSportif(id, nom, participants) {}
 
 void Athletisme::afficherDetails() const {
     std::cout << "Événement d'athlétisme : " << getNomEvenement() << std::endl;
@@ -89,8 +91,8 @@ void Athletisme::afficherDetails() const {
 
 
 
-Natation::Natation(const std::string& nom, const std::vector<Participant>& participants, bool estRelais)
-    : EvenementSportif(nom, participants), estRelais(estRelais) {
+Natation::Natation(int id, const std::string& nom, const std::vector<Participant>& participants, bool estRelais)
+    : EvenementSportif(id, nom, participants), estRelais(estRelais) {
 }
 
 void Natation::afficherDetails() const {
