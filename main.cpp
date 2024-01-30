@@ -157,7 +157,7 @@ int main() {
     inputBox.setFillColor(sf::Color::White);
     inputBox.setOutlineColor(sf::Color::Black);
     inputBox.setOutlineThickness(2);
-    inputBox.setPosition(300, 500);
+    inputBox.setPosition(300, 200); //mieux que 300/500 pour la superposition entre la case et le texte
 
 
 
@@ -171,20 +171,30 @@ int main() {
     Button buttonParier(sf::Vector2f(50, 300), "Parier");
     Button buttonActualiser(sf::Vector2f(50, 400), "Actualiser");
 
+    // Création bouton participants 
+    //athlétisme
+    Button buttonBolt(sf::Vector2f(20, 10), "U.Bolt");
+    Button buttonLewis(sf::Vector2f(20, 50), "C.Lewis");
+    Button buttonOwens(sf::Vector2f(20, 90), "J.Owens");
+    //natation
+    Button buttonPhelps(sf::Vector2f(20, 10), "M.Phelps");
+    Button buttonThorpe(sf::Vector2f(20, 50), "I.Thorpe");
+    Button buttonLedecky(sf::Vector2f(20, 90), "K.Ledecky");
+    
 
-    // Déclaration d'une liste de boutons pour les participants
+    /*// Déclaration d'une liste de boutons pour les participants
     std::vector<Button> participantButtons;
     int positionParticipantY = 10;
     for (const auto& participant : participantsAthletisme) {
         // Création du bouton avec le nom du participant
         Button participantButton(sf::Vector2f(20, positionParticipantY), participant.getNom());
-
+        printf(" Test : %s \n",participant.getNom());
         //Ajout du bouton à la liste
         participantButtons.push_back(participantButton);
 
         // Mis à jour de la position verticale
         positionParticipantY += participantButton.getY() + 10;
-    }
+    }*/
 
 
     // Boucle principale de rendu
@@ -315,9 +325,19 @@ int main() {
             window.draw(sprite);
 
             // Affichage des boutons des participants
-            for (const auto& button : participantButtons) {
+            /*for (const auto& button : participantButtons) {
                 button.draw(window);
+            }*/
+            if(id == 1){
+                buttonBolt.draw(window);
+                buttonLewis.draw(window);
+                buttonOwens.draw(window);
+            } else {
+                buttonPhelps.draw(window);
+                buttonThorpe.draw(window);
+                buttonLedecky.draw(window);
             }
+             
              buttonRetour.draw(window);
 
             inputText.setString(inputString.str()); // Mettre à jour le texte affiché
