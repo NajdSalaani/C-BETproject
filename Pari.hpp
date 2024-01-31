@@ -13,14 +13,23 @@ enum class Statut{
 
 class Pari{
     public:
+<<<<<<< HEAD
     Pari(int id, double montant, Statut statut, EvenementSportif& evenement, const std::list<Participant>& participants);
+=======
+    Pari(int id, double montant, Statut statut, EvenementSportif& evenement, const Participant& participant);
+>>>>>>> 2e92182 (m)
     int getId();
     void modifCote();
     void ajouterParticipant(const Participant& participant);
     void supprimerParticipant(const Participant& participant);
     void annulerPari();
+<<<<<<< HEAD
     void ResultatPari(const EvenementSportif& evenement);
     void detailPari() const;
+=======
+    void resultatPari();
+    std::string detailPari() const;
+>>>>>>> 2e92182 (m)
     std::string getEvenement() const;
     double getCote() const;
     double getMontant() const;
@@ -35,7 +44,11 @@ class Pari{
     double _cote;
     Statut _statut;
     EvenementSportif&  _evenement;
+<<<<<<< HEAD
     std::list<Participant> _participantsChoisis;
+=======
+    Participant _participantChoisi;
+>>>>>>> 2e92182 (m)
 
 };
 
