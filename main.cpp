@@ -8,7 +8,7 @@
 #include <SFML/System.hpp>
 #include <ctime>
 #include <sstream>
-
+#include <stdlib.h>
 
 #include "Utilisateur.hpp"
 
@@ -181,7 +181,13 @@ int main() {
     Button buttonThorpe(sf::Vector2f(20, 50), "I.Thorpe");
     Button buttonLedecky(sf::Vector2f(20, 90), "K.Ledecky");
     
-
+    //Pour la page de connexion
+    //Boutons utilisateurs connus
+    Button buttonAlice(sf::Vector2f(550, 200), "Alice");
+    Button buttonBob(sf::Vector2f(150, 200), "Bob");
+    //Boutons de contrôles
+    Button buttonQuit(sf::Vector2f(700, 0), "Quitter");
+    Button buttonDeco(sf::Vector2f(700, 40), "LogOut");
     /*// Déclaration d'une liste de boutons pour les participants
     std::vector<Button> participantButtons;
     int positionParticipantY = 10;
@@ -221,6 +227,14 @@ int main() {
                     std::cout << "Bouton Natation cliqué !" << std::endl;
                     fenetre = 1;
                     id = 2;
+                }
+
+                if (buttonDeco.isClicked(mousePos)) {
+                    fenetre = -1;
+                }
+
+                if (buttonQuit.isClicked(mousePos)) {
+                    window.close();
                 }
 
                 if (buttonRetour.isClicked(mousePos)) {
@@ -279,6 +293,18 @@ int main() {
 
         //Etats de la fenetre
         switch (fenetre){
+        case -1 : // Fenêtre de connexion
+            window.clear();
+            window.draw(sprite);
+            buttonAlice.draw(window);
+            buttonBob.draw(window);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
+            
+            window.display();
+            
+            
+            break;
         case 0:
              window.clear();
             // Affichage du texte des événements
@@ -288,6 +314,8 @@ int main() {
             window.draw(textNatation);
 
             // Affichage des boutons
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
             buttonAthletisme.draw(window);
             buttonNatation.draw(window);
 
@@ -315,6 +343,8 @@ int main() {
             buttonRetour.draw(window);
             buttonActualiser.draw(window);
             buttonParier.draw(window);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
             window.display();      
             // Afficher les modifications
             break;
@@ -356,6 +386,9 @@ int main() {
                 break; // Sortir de la boucle de rendu
             }
 
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
+
             window.display();
             // Afficher les modifications
             break;
@@ -375,6 +408,8 @@ int main() {
             buttonRetour.draw(window);
             buttonActualiser.draw(window);
             buttonParier.draw(window);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
             window.display();      
             // Afficher les modifications
             break;
