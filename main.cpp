@@ -61,14 +61,15 @@ bool isValidInput(char input) {
 
 int main() {
      srand(time(NULL)); // Initialisation du générateur de nombres aléatoires
-     int fenetre = 0;
+     int fenetre = -1;
      int id = 0;
-
-    Utilisateur utilisateur1("Alice");
-    Utilisateur utilisateur2("Bob");
+     int compte = 0; //Permet le controle en fonction de l'utilisateur connecté : 0 aucun , 1 Alice , 2 Bob
+     
+    Utilisateur utilisateur1("Alice","1234");
+    Utilisateur utilisateur2("Bob","2605");
 
     // Création de la fenêtre
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Bienvenu sur OlympiBet");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "OlympiBet");
 
     sf::Texture texture;
     if (!texture.loadFromFile("a.jpg")) {
@@ -112,6 +113,8 @@ int main() {
     // Construction de la chaîne de caractères contenant les noms des événements
     std::string eventsText = "Evenements du jour :\n";
     text.setString(eventsText);
+
+    
 
     // Création du texte pour afficher les événements
     sf::Text textAthletisme;
@@ -182,12 +185,59 @@ int main() {
     Button buttonLedecky(sf::Vector2f(20, 90), "K.Ledecky");
     
     //Pour la page de connexion
+    // Création du texte pour la page de connexion
+
+    sf::Text textConnexionAccueil;
+    textConnexionAccueil.setFont(font);
+    textConnexionAccueil.setCharacterSize(24);
+    textConnexionAccueil.setFillColor(sf::Color::White);
+    textConnexionAccueil.setString(
+    "Bienvenue sur OlympiBet !!! \n   Choisissez votre compte :"
+    );
+    textConnexionAccueil.setPosition(200, 100);
+
+    sf::Text textConnexionMDP;
+    textConnexionMDP.setFont(font);
+    textConnexionMDP.setCharacterSize(24);
+    textConnexionMDP.setFillColor(sf::Color::White);
+    textConnexionMDP.setString(
+    ""
+    );
+    textConnexionMDP.setPosition(175, 100);
+
     //Boutons utilisateurs connus
     Button buttonAlice(sf::Vector2f(550, 200), "Alice");
     Button buttonBob(sf::Vector2f(150, 200), "Bob");
     //Boutons de contrôles
     Button buttonQuit(sf::Vector2f(700, 0), "Quitter");
     Button buttonDeco(sf::Vector2f(700, 40), "LogOut");
+    //Rectangle pour saisie du mot de passe 
+    // Déclaration de la zone de saisie du mot de passe
+    sf::Text mdpText;
+    mdpText.setFont(font);
+    mdpText.setCharacterSize(20);
+    mdpText.setFillColor(sf::Color::Black);
+    mdpText.setPosition(305, 255); 
+
+    sf::Text erreurText;
+    erreurText.setFont(font);
+    erreurText.setCharacterSize(20);
+    erreurText.setFillColor(sf::Color::Red);
+    erreurText.setPosition(150, 300); 
+    erreurText.setString("");
+
+
+    sf::RectangleShape mdpBox(sf::Vector2f(200, 30));
+    mdpBox.setFillColor(sf::Color::White);
+    mdpBox.setOutlineColor(sf::Color::Black);
+    mdpBox.setOutlineThickness(2);
+    mdpBox.setPosition(300, 250);
+
+    //Variables pour la saisie et la comparaison des mots de passe 
+    bool mdpInputFinished = false; //etat de la saisie , true si finie
+    std::ostringstream mdpInputString; //utile pour afficher ce que l'utilisateur saisie
+    std::string mdp; //Pour comparer avec le mot passe du compte
+
     /*// Déclaration d'une liste de boutons pour les participants
     std::vector<Button> participantButtons;
     int positionParticipantY = 10;
@@ -229,8 +279,33 @@ int main() {
                     id = 2;
                 }
 
+                if (buttonAlice.isClicked(mousePos)) {
+                    compte = 2;
+                    //Pour ne pas prendre en compte d'ancienne saisies
+                    mdpInputFinished = false;
+                    mdpInputString.str("");
+                    mdp.clear();
+                    erreurText.setString("");                   
+                }
+
+                if (buttonBob.isClicked(mousePos)) {
+                    compte = 1;
+                    //Pour ne pas prendre en compte d'ancienne saisies
+                    mdpInputFinished = false;
+                    mdpInputString.str("");
+                    mdp.clear();
+                    erreurText.setString("");
+                    
+                }
+
                 if (buttonDeco.isClicked(mousePos)) {
                     fenetre = -1;
+                    compte = 0;
+                    //Pour ne pas prendre en compte d'ancienne saisies
+                    mdpInputFinished = false;
+                    mdpInputString.str("");
+                    mdp.clear();
+                    erreurText.setString("");
                 }
 
                 if (buttonQuit.isClicked(mousePos)) {
@@ -262,6 +337,28 @@ int main() {
 
             }
 
+
+            if (fenetre == -1) {  //Page de connexion
+            if (!mdpInputFinished && event.type == sf::Event::TextEntered) {
+                if (isValidInput(event.text.unicode)) {
+                    if (event.text.unicode == '\b' && !mdpInputString.str().empty()) {
+                        std::string str = mdpInputString.str();
+                        str.erase(str.size() - 1, 1);
+                        mdpInputString.str("");
+                        mdpInputString << str;
+                    } else if (event.text.unicode < 128) {
+                        mdpInputString << static_cast<char>(event.text.unicode);
+                    }
+                }
+
+                if (event.text.unicode == '\r') {  // Touche "Enter" pour terminer la saisie
+                    if (!mdpInputString.str().empty()) {
+                        mdp = mdpInputString.str();
+                        mdpInputFinished = true;
+                        }
+                    }
+                }   
+            }
 
             if(fenetre == 2){
                 if (!inputFinished && event.type == sf::Event::TextEntered) {
@@ -296,13 +393,56 @@ int main() {
         case -1 : // Fenêtre de connexion
             window.clear();
             window.draw(sprite);
+            
             buttonAlice.draw(window);
             buttonBob.draw(window);
             buttonDeco.draw(window);
             buttonQuit.draw(window);
+            if( compte != 0){
+             window.draw(mdpBox);
+             window.draw(mdpText);
+             window.draw(erreurText);
+             
+             if(compte == 1){
+                textConnexionMDP.setString("Tapez le mot de passe du compte de Bob");
+                
+             } else {
+                textConnexionMDP.setString("Tapez le mot de passe du compte d'Alice");
+                
+             }
+             window.draw(textConnexionMDP);
+             //On met en place maintenant la saisie du mot de passe :
+             
+             if (!mdpInputFinished) {
+                mdpText.setString(mdpInputString.str());
+             }
+             if (mdpInputFinished) {
+                
+                // On vérifie la conformité du mot de passe
+                if( compte == 1 && mdp == utilisateur1.getMotDePasse()){
+                    fenetre = 0;
+                }
+                else if( compte == 2 && mdp == utilisateur2.getMotDePasse()){
+                    fenetre = 0;
+                }
+                else{
+                    erreurText.setString( "Erreur de mot de passe" );
+                }
+                // Réinitialisez les variables pour la prochaine saisie , ici car sinon si pas dans ce if cela bloque la saisie en effaçant constamment
+                // On le fait aussi en code de déconnexion par bouton
+                mdpInputFinished = false;
+                mdpInputString.str("");
+                mdp.clear();
+                
+             }
+            }
+            else {
+                window.draw(textConnexionAccueil);
+            }
+
             
+
             window.display();
-            
             
             break;
         case 0:

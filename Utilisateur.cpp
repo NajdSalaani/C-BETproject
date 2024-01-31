@@ -9,13 +9,18 @@ using namespace std;
 Utilisateur::Utilisateur(){
 }
 
-Utilisateur::Utilisateur(const std::string& nom) : _nom(nom) {
-}
+/*Utilisateur::Utilisateur(const std::string& nom) : _nom(nom) {
+}*/
+
+Utilisateur::Utilisateur(const std::string& nom, const std::string &motDePasse) : _nom(nom), _motDePasse(motDePasse) {}
 
 std::string Utilisateur::getNom() const {
     return _nom;
 }
 
+std::string Utilisateur::getMotDePasse() const {
+    return _motDePasse;  //Pas opti niveau sécurité
+}
 
 void Utilisateur:: ajoutPari(const Pari& nouveauPari){
     _mesParis.push_back(nouveauPari);
