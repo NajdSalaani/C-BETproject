@@ -94,9 +94,9 @@ void Pari:: resultatPari(){
 
 std::string Pari:: detailPari() const {
     std::ostringstream detailsStream;
-    detailsStream << "Détails du Pari :\n";
+    detailsStream << "Details du Pari :\n";
     detailsStream << "ID du Pari : " << _id << "\n";
-    detailsStream << "Montant misé : " << _montantMise << "\n";
+    detailsStream << "Montant mise : " << _montantMise << "\n";
     detailsStream << "Cote : " << _cote << "\n";
     detailsStream << "Statut : ";
 
@@ -105,19 +105,19 @@ std::string Pari:: detailPari() const {
             detailsStream << "En cours";
             break;
         case Statut::G:
-            detailsStream << "Gagné";
+            detailsStream << "Gagne";
             break;
         case Statut::P:
             detailsStream << "Perdu";
             break;
     }
 
-    detailsStream << "\nParticipant sur lequel vous avez misé :\n";
+    detailsStream << "\nParticipant sur lequel vous avez mise :\n";
     //for (const auto& participant : _participantsChoisis) {
         detailsStream << " - " << _participantChoisi.getNom() << "\n";
     //}
 
-    detailsStream << "Événement associé :\n";
+    detailsStream << "Evenement associe :\n";
     detailsStream << " - " << _evenement.getNomEvenement() << "\n";
 
     detailsStream << "-------------------------\n";

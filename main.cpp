@@ -121,7 +121,7 @@ int main() {
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Green);
 
     // Construction de la chaîne de caractères contenant les noms des événements
     std::string eventsText = "Evenements du jour :\n";
@@ -134,35 +134,37 @@ int main() {
     sf::Text textAthletisme;
     textAthletisme.setFont(font);
     textAthletisme.setCharacterSize(24);
-    textAthletisme.setFillColor(sf::Color::White);
+    textAthletisme.setFillColor(sf::Color::Green);
     textAthletisme.setString(athletisme.getNomEvenement());
     textAthletisme.setPosition(0, 100);
 
     sf::Text textNatation;
     textNatation.setFont(font);
     textNatation.setCharacterSize(24);
-    textNatation.setFillColor(sf::Color::White);
+    textNatation.setFillColor(sf::Color::Green);
     textNatation.setString(natation.getNomEvenement());
     textNatation.setPosition(0, 150);
 
     sf::Text textActu;
     textActu.setFont(font);
     textActu.setCharacterSize(24);
-    textActu.setFillColor(sf::Color::White);
+    textActu.setFillColor(sf::Color::Green);
     textActu.setPosition(200, 300);
 
     sf::Text textchoix;
     textchoix.setFont(font);
     textchoix.setCharacterSize(24);
-    textchoix.setFillColor(sf::Color::White);
+    textchoix.setFillColor(sf::Color::Green);
     textchoix.setPosition(200, 300);
     textchoix.setString(choixDuJour);
 
     sf::Text textResultatsParis;
     textResultatsParis.setFont(font);
     textResultatsParis.setCharacterSize(24);
-    textResultatsParis.setFillColor(sf::Color::White);
-    textResultatsParis.setPosition(400, 300);
+    textResultatsParis.setFillColor(sf::Color::Green);
+    textResultatsParis.setPosition(200, 100);
+
+   
     
 
     sf::Text detailsText;
@@ -182,7 +184,7 @@ int main() {
 
     // Déclaration du rectangle de saisie de texte
     sf::RectangleShape inputBox(sf::Vector2f(200, 30));
-    inputBox.setFillColor(sf::Color::White);
+    inputBox.setFillColor(sf::Color::Green);
     inputBox.setOutlineColor(sf::Color::Black);
     inputBox.setOutlineThickness(2);
     inputBox.setPosition(300, 200); //mieux que 300/500 pour la superposition entre la case et le texte
@@ -219,7 +221,7 @@ int main() {
     sf::Text textConnexionAccueil;
     textConnexionAccueil.setFont(font);
     textConnexionAccueil.setCharacterSize(24);
-    textConnexionAccueil.setFillColor(sf::Color::White);
+    textConnexionAccueil.setFillColor(sf::Color::Green);
     textConnexionAccueil.setString(
     "Bienvenue sur OlympiBet !!! \n   Choisissez votre compte :"
     );
@@ -228,7 +230,7 @@ int main() {
     sf::Text textConnexionMDP;
     textConnexionMDP.setFont(font);
     textConnexionMDP.setCharacterSize(24);
-    textConnexionMDP.setFillColor(sf::Color::White);
+    textConnexionMDP.setFillColor(sf::Color::Green);
     textConnexionMDP.setString(
     ""
     );
@@ -257,7 +259,7 @@ int main() {
 
 
     sf::RectangleShape mdpBox(sf::Vector2f(200, 30));
-    mdpBox.setFillColor(sf::Color::White);
+    mdpBox.setFillColor(sf::Color::Green);
     mdpBox.setOutlineColor(sf::Color::Black);
     mdpBox.setOutlineThickness(2);
     mdpBox.setPosition(300, 250);
@@ -356,12 +358,33 @@ int main() {
                     std::cout << "Bouton Actualise cliqué !" << std::endl;
                     fenetre = 3;
                     if (id == 1){
-                        detailsText.setString(athletisme.getDetails());
-                        textActu.setString(athletisme.majResultats());
+                        if(compte == 1){
+                            detailsText.setString(athletisme.getDetails());
+                            textActu.setString(athletisme.majResultats());
+                            nouveauPari1.resultatPari();
+                            textResultatsParis.setString(nouveauPari1.detailPari());
+                        }
+                        else{
+                            detailsText.setString(athletisme.getDetails());
+                            textActu.setString(athletisme.majResultats());
+                            nouveauPari2.resultatPari();
+                            textResultatsParis.setString(nouveauPari2.detailPari());
+                        }
+
                     }
                     else{
-                        detailsText.setString(natation.getDetails());
-                        textActu.setString(natation.majResultats());
+                        if(compte == 1){
+                            detailsText.setString(natation.getDetails());
+                            textActu.setString(natation.majResultats());
+                            nouveauPari1.resultatPari();
+                            textResultatsParis.setString(nouveauPari1.detailPari());
+                        }
+                        else{
+                            detailsText.setString(natation.getDetails());
+                            textActu.setString(natation.majResultats());
+                            nouveauPari2.resultatPari();
+                            textResultatsParis.setString(nouveauPari2.detailPari());
+                        }
                     }
 
                 }
@@ -393,7 +416,12 @@ int main() {
 
                 if(ButtonMonPari.isClicked(mousePos)){
                     std::cout << "Bouton MonPari clique!" << std::endl;
-                    textResultatsParis.setString(nouveauPari1.detailPari());
+                    if(compte == 1){
+                        textResultatsParis.setString(nouveauPari1.detailPari());
+                    }
+                    else{
+                        textResultatsParis.setString(nouveauPari2.detailPari());
+                    }
                     fenetre = 5;
                 }
 
@@ -426,48 +454,7 @@ int main() {
                 }   
             }
 
-            //Je n'ai pas compris si cette partie doit être ici ou dans la boucle des événements
-            /*
-            if(fenetre == 2){
-
-                        for (auto& paris : utilisateur1.getListParis()) {
-                            paris.resultatPari();
-                        }
-                    }
-                }
-
-                if(ButtonMesParis.isClicked(mousePos)){
-                    std::cout << "Bouton MesParis clique!" << std::endl;
-                    textResultatsParis.setString(utilisateur1.getMesParis());
-                    fenetre = 5;
-                }
-
-
-
-                if(participantButton1.isClicked(mousePos) || participantButton2.isClicked(mousePos)||participantButton3.isClicked(mousePos)||participantButton4.isClicked(mousePos)||participantButton5.isClicked(mousePos)||participantButton6.isClicked(mousePos)){
-                    fenetre = 4;
-                    if (participantButton1.isClicked(mousePos)) {
-                        choix_participant = participantsAthletisme[0];
-                    } 
-                    else if (participantButton2.isClicked(mousePos)) {
-                        choix_participant = participantsAthletisme[1];
-                    } 
-                    else if (participantButton3.isClicked(mousePos)) {
-                        choix_participant = participantsAthletisme[2];
-                    } 
-                    else if (participantButton4.isClicked(mousePos)) {
-                        choix_participant = participantsNatation[0];
-                    } 
-                    else if (participantButton5.isClicked(mousePos)) {
-                        choix_participant = participantsNatation[1];
-                    } 
-                    else if (participantButton6.isClicked(mousePos)) {
-                        choix_participant = participantsNatation[2];
-                    }
-                    inputFinished = false;
-                }
-            }
-            */
+           
 
             if(fenetre == 4){
                 if (!inputFinished && event.type == sf::Event::TextEntered) {
@@ -587,14 +574,26 @@ int main() {
             window.draw(sprite);
             detailsText.setFont(font);
             detailsText.setCharacterSize(16);
-            detailsText.setFillColor(sf::Color::White);
+            detailsText.setFillColor(sf::Color::Green);
             if (id == 1){
+                if(compte == 1){
                 detailsText.setString(athletisme.getDetails());
                 nouveauPari1.setEvenement(athletisme);
+                }
+                else{
+                   detailsText.setString(athletisme.getDetails());
+                   nouveauPari2.setEvenement(athletisme); 
+                }
             }
             else{
+                if(compte == 1){
                 detailsText.setString(natation.getDetails());
-                nouveauPari1.setEvenement(athletisme);
+                nouveauPari1.setEvenement(natation);
+                }
+                else{
+                   detailsText.setString(natation.getDetails());
+                   nouveauPari2.setEvenement(natation); 
+                }
             }
             detailsText.setPosition(50, 100); // Ajustez la position selon vos besoins
             window.draw(detailsText);
@@ -641,6 +640,7 @@ int main() {
                 // Vous pouvez ajouter ici le code pour traiter la mise enregistrée
                 fenetre = 0;
                 //input finished = false;
+                inputFinished = false;
                 break; // Sortir de la boucle de rendu
             }
 
@@ -665,7 +665,7 @@ int main() {
              // Effacer la fenêtre
             detailsText.setFont(font);
             detailsText.setCharacterSize(16);
-            detailsText.setFillColor(sf::Color::White);
+            detailsText.setFillColor(sf::Color::Green);
             detailsText.setPosition(50, 100); // Ajustez la position selon vos besoins
             window.draw(textActu);
             window.draw(detailsText);
@@ -702,6 +702,9 @@ int main() {
                 if(compte == 1){
                     nouveauPari1.modifPari(idPari, mise, statutInitial, choix_participant);
                 }
+                else{
+                    nouveauPari2.modifPari(idPari, mise, statutInitial, choix_participant);
+                }
                 // Créez une instance de Pari avec les informations obtenues
                 
 
@@ -715,6 +718,7 @@ int main() {
                 fenetre = 0;
                 break; 
             }
+            
 
             window.display();
             break;
