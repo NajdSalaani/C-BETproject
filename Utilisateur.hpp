@@ -5,18 +5,19 @@
 
 class Utilisateur{
     public:
-    Utilisateur();
-    Utilisateur(const std::string &nom,const std::string& motDePasse);
+    Utilisateur(const std::string& nom, const std::string& motDePasse);
+    Utilisateur(const std::string &nom,const std::string& motDePasse, const Pari& pari);
     std::string getNom() const;
     std::string getMotDePasse() const;
     void ajoutPari(const Pari& nouveauPari);
     void supprimerPari(const Pari& pariASupp);
-    void getMesParis() const;
+     std::string getMonPari() const;
+    Pari monPari() const;
 
 
     private:
     std::string _nom;
     std::string _motDePasse;
-    std::vector<Pari> _mesParis;
+    Pari _pari;
 
 };

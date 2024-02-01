@@ -75,8 +75,6 @@ std::string EvenementSportif::getDetails() const {
 
 
 
-
-
 Athletisme::Athletisme(int id, const std::string& nom, const std::vector<Participant>& participants)
     : EvenementSportif(id, nom, participants) {}
 

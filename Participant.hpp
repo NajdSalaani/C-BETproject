@@ -3,6 +3,7 @@
 
 class Participant {
 public:
+Participant();
     Participant(const std::string& nom, double cote);
 
     std::string getNom() const;

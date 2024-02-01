@@ -2,6 +2,7 @@
 #include "Participant.hpp"
 using namespace std;
 
+Participant::Participant() : _nom(""), _cote(0.0) {}
 
 Participant::Participant(const std::string& nom, double cote)
     : _nom(nom), _cote(cote) {}

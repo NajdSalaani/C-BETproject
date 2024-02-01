@@ -1,9 +1,6 @@
 #include <iostream>
 #include <string>
-<<<<<<< HEAD
-=======
 #include <sstream>
->>>>>>> 2e92182 (m)
 #include "Pari.hpp"
 
 
@@ -12,29 +9,17 @@
 using namespace std;
 
 
-
-<<<<<<< HEAD
-Pari::Pari(int id, double montant, Statut statut, EvenementSportif& evenement, const std::list<Participant>& participants)
-    : _id(id), _montantMise(montant), _statut(statut), _evenement(evenement), _participantsChoisis(participants) {
-    // Calcul de la cote moyenne parmi les participants
-    double maxCote = 0.0;
-=======
 Pari::Pari(int id, double montant, Statut statut, EvenementSportif& evenement, const Participant& participant)
     : _id(id), _montantMise(montant), _statut(statut), _evenement(evenement), _participantChoisi(participant) {
     // Calcul de la cote moyenne parmi les participants
     /*double maxCote = 0.0;
->>>>>>> 2e92182 (m)
     for (const auto& participant : participants) {
         if (participant.getCote() > maxCote) {
             maxCote = participant.getCote();
         }
     }
-<<<<<<< HEAD
-    _cote = maxCote / participants.size();
-=======
     _cote = maxCote / participants.size();*/
     _cote = participant.getCote();
->>>>>>> 2e92182 (m)
 }
 
 
@@ -42,11 +27,7 @@ int Pari:: getId(){
     return _id;
 }
 
-<<<<<<< HEAD
-
-=======
 /*
->>>>>>> 2e92182 (m)
 void Pari:: modifCote() {
         // Calcul de la cote moyenne parmi les participants
         double maxCote = 0.0;
@@ -56,15 +37,9 @@ void Pari:: modifCote() {
             }
         }
         _cote = maxCote / _participantsChoisis.size();
-<<<<<<< HEAD
-    }
-
-
-=======
     }*/
 
 /*
->>>>>>> 2e92182 (m)
 void Pari:: ajouterParticipant(const Participant& participant) {
     _participantsChoisis.push_back(participant);
     modifCote();
@@ -74,11 +49,7 @@ void Pari:: ajouterParticipant(const Participant& participant) {
 void Pari:: supprimerParticipant(const Participant& participant) {
     _participantsChoisis.remove(participant);
     modifCote();
-<<<<<<< HEAD
-}
-=======
 }*/
->>>>>>> 2e92182 (m)
 
 void Pari::annulerPari() {
     // Réinitialiser les données du pari
@@ -86,11 +57,7 @@ void Pari::annulerPari() {
     _montantMise = 0.0;
     _cote = 0.0;
     _statut = Statut::E;
-<<<<<<< HEAD
-    _participantsChoisis.clear(); // Effacer la liste des participants
-=======
     //_participantsChoisis.clear(); // Effacer la liste des participants
->>>>>>> 2e92182 (m)
 
     // Libérer la mémoire de l'instance de l'objet pari
     delete this;
@@ -99,79 +66,32 @@ void Pari::annulerPari() {
 
 
 
-<<<<<<< HEAD
-void Pari:: ResultatPari(const EvenementSportif& evenement){
-   // Vérifier si l'un des participants choisis remporte l'événement
-    bool participantGagnant = false;
-    for (const auto& participant : _participantsChoisis) {
-=======
 void Pari:: resultatPari(){
    // Vérifier si l'un des participants choisis remporte l'événement
     bool participantGagnant = false;
     /*for (const auto& participant : _participantsChoisis) {
->>>>>>> 2e92182 (m)
         if (evenement.getGagnant() == participant.getNom()) {
             participantGagnant = true;
             break;
         }
-<<<<<<< HEAD
-=======
     }*/
     if (_evenement.getGagnant() == _participantChoisi.getNom()){
         participantGagnant = true;
->>>>>>> 2e92182 (m)
     }
 
     // Mettre à jour le statut du pari en conséquence
     if (participantGagnant) {
         _statut = Statut::G; // Gagné si l'un des participants choisis remporte l'événement
-<<<<<<< HEAD
-    } else if (evenement.getGagnant() == "--") {
-        _statut = Statut::E; // Événement en cours
-    } else {
-=======
     } 
     else if (_evenement.getGagnant() == "--") {
         _statut = Statut::E; // Événement en cours
     } 
     else {
->>>>>>> 2e92182 (m)
         _statut = Statut::P; // Perdu si aucun des participants choisis ne remporte l'événement
     }
 }
 
 
-<<<<<<< HEAD
-void Pari:: detailPari() const {
-   std::cout << "Détails du Pari :\n";
-    std::cout << "ID du Pari : " << _id << "\n";
-    std::cout << "Montant misé : " << _montantMise << "\n";
-    std::cout << "Cote : " << _cote << "\n";
-    std::cout << "Statut : ";
-
-    switch (_statut) {
-        case Statut::E:
-            std::cout << "En cours";
-            break;
-        case Statut::G:
-            std::cout << "Gagné";
-            break;
-        case Statut::P:
-            std::cout << "Perdu";
-            break;
-    }
-
-    std::cout << "\nParticipants sur lesquels vous avez misé :\n";
-    for (const auto& participant : _participantsChoisis) {
-        std::cout << " - " << participant.getNom() << "\n";
-    }
-
-    std::cout << "Événement associé :\n";
-    std::cout << " - " << _evenement.getNomEvenement() << "\n";
-
-    std::cout << "-------------------------\n";
-    std::cout << std::endl << std::endl;
-=======
 std::string Pari:: detailPari() const {
     std::ostringstream detailsStream;
     detailsStream << "Détails du Pari :\n";
@@ -203,7 +123,6 @@ std::string Pari:: detailPari() const {
     detailsStream << "-------------------------\n";
     detailsStream << std::endl << std::endl;
     return detailsStream.str();
->>>>>>> 2e92182 (m)
 }
 
 
@@ -227,26 +146,16 @@ string Pari:: getChoix() const{
     std::string choix;
 
     // Parcourir la liste des participants choisis et concaténer leur nom dans la chaîne de caractères
-<<<<<<< HEAD
-    for (const auto& participant : _participantsChoisis) {
-=======
     /*for (const auto& participant : _participantsChoisis) {
->>>>>>> 2e92182 (m)
         choix += participant.getNom() + ", ";
     }
 
     // Supprimer la virgule et l'espace en trop à la fin de la chaîne
     if (!choix.empty()) {
         choix.erase(choix.size() - 2); // Supprimer les deux derniers caractères
-<<<<<<< HEAD
-    }
-
-    return choix;
-=======
     }*/
 
     return _participantChoisi.getNom();
->>>>>>> 2e92182 (m)
 }
 
 
@@ -255,6 +164,32 @@ void Pari::mettreMontant(double montant){
 }
 
 
+Pari& Pari::operator=(const Pari& autre) {
+    // Vérifier l'auto-attribution
+    if (this != &autre) {
+        // Copier les attributs de l'autre pari dans le pari actuel
+        _id = autre._id;
+        _montantMise = autre._montantMise;
+        _cote = autre._cote;
+        _statut = autre._statut;
+        // L'événement est un pointeur, donc nous devons copier l'adresse
+        _evenement = autre._evenement;
+        _participantChoisi = autre._participantChoisi;
+        // Copiez d'autres attributs si nécessaire
+    }
+    return *this;
+}
+
+void Pari::modifPari(int id, double montantMise, Statut statut, Participant participantChoisi){
+    _id = id;
+    _montantMise = montantMise;
+    _statut = statut;
+    _participantChoisi = participantChoisi;
+}
+
+void Pari::setEvenement(const EvenementSportif &evenement){
+    _evenement = evenement;
+}
 
 
 
@@ -263,11 +198,7 @@ void Pari::mettreMontant(double montant){
 
 
 
-<<<<<<< HEAD
-
-=======
 /*
->>>>>>> 2e92182 (m)
 
 Combine::Combine(int id, double montant,  Statut statut, const std::list<EvenementSportif*>& evenements, const std::list<Participant>& participants)
     : Pari(id, montant, statut, *evenements.front(), participants), _listeEvenements(evenements) {}
@@ -385,8 +316,4 @@ void Combine::detailPari() const {
 
     std::cout << "-------------------------\n";
     std::cout << std::endl << std::endl;
-<<<<<<< HEAD
-}
-=======
 }*/
->>>>>>> 2e92182 (m)
