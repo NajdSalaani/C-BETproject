@@ -96,7 +96,7 @@ int main() {
         Participant("Ian Thorpe", 1.9),
         Participant("Katie Ledecky", 2.2)
     };
-    Natation natation(2, "Relais 4x100m nage libre", participantsNatation, true);
+    Natation natation(2, "100m nage libre", participantsNatation, true);
 
 
 
@@ -121,7 +121,7 @@ int main() {
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(24);
-    text.setFillColor(sf::Color::Green);
+    text.setFillColor(sf::Color::Blue);
 
     // Construction de la chaîne de caractères contenant les noms des événements
     std::string eventsText = "Evenements du jour :\n";
@@ -134,34 +134,34 @@ int main() {
     sf::Text textAthletisme;
     textAthletisme.setFont(font);
     textAthletisme.setCharacterSize(24);
-    textAthletisme.setFillColor(sf::Color::Green);
+    textAthletisme.setFillColor(sf::Color::Blue);
     textAthletisme.setString(athletisme.getNomEvenement());
     textAthletisme.setPosition(0, 100);
 
     sf::Text textNatation;
     textNatation.setFont(font);
     textNatation.setCharacterSize(24);
-    textNatation.setFillColor(sf::Color::Green);
+    textNatation.setFillColor(sf::Color::Blue);
     textNatation.setString(natation.getNomEvenement());
     textNatation.setPosition(0, 150);
 
     sf::Text textActu;
     textActu.setFont(font);
     textActu.setCharacterSize(24);
-    textActu.setFillColor(sf::Color::Green);
+    textActu.setFillColor(sf::Color::Blue);
     textActu.setPosition(200, 300);
 
     sf::Text textchoix;
     textchoix.setFont(font);
     textchoix.setCharacterSize(24);
-    textchoix.setFillColor(sf::Color::Green);
+    textchoix.setFillColor(sf::Color::Blue);
     textchoix.setPosition(200, 300);
     textchoix.setString(choixDuJour);
 
     sf::Text textResultatsParis;
     textResultatsParis.setFont(font);
     textResultatsParis.setCharacterSize(24);
-    textResultatsParis.setFillColor(sf::Color::Green);
+    textResultatsParis.setFillColor(sf::Color::Blue);
     textResultatsParis.setPosition(200, 100);
 
    
@@ -184,7 +184,7 @@ int main() {
 
     // Déclaration du rectangle de saisie de texte
     sf::RectangleShape inputBox(sf::Vector2f(200, 30));
-    inputBox.setFillColor(sf::Color::Green);
+    inputBox.setFillColor(sf::Color::Blue);
     inputBox.setOutlineColor(sf::Color::Black);
     inputBox.setOutlineThickness(2);
     inputBox.setPosition(300, 200); //mieux que 300/500 pour la superposition entre la case et le texte
@@ -221,7 +221,7 @@ int main() {
     sf::Text textConnexionAccueil;
     textConnexionAccueil.setFont(font);
     textConnexionAccueil.setCharacterSize(24);
-    textConnexionAccueil.setFillColor(sf::Color::Green);
+    textConnexionAccueil.setFillColor(sf::Color::Blue);
     textConnexionAccueil.setString(
     "Bienvenue sur OlympiBet !!! \n   Choisissez votre compte :"
     );
@@ -230,7 +230,7 @@ int main() {
     sf::Text textConnexionMDP;
     textConnexionMDP.setFont(font);
     textConnexionMDP.setCharacterSize(24);
-    textConnexionMDP.setFillColor(sf::Color::Green);
+    textConnexionMDP.setFillColor(sf::Color::Blue);
     textConnexionMDP.setString(
     ""
     );
@@ -259,7 +259,7 @@ int main() {
 
 
     sf::RectangleShape mdpBox(sf::Vector2f(200, 30));
-    mdpBox.setFillColor(sf::Color::Green);
+    mdpBox.setFillColor(sf::Color::Blue);
     mdpBox.setOutlineColor(sf::Color::Black);
     mdpBox.setOutlineThickness(2);
     mdpBox.setPosition(300, 250);
@@ -301,12 +301,16 @@ int main() {
                 sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
                 if (buttonAthletisme.isClicked(mousePos)) {
                     std::cout << "Bouton Athlétisme cliqué !" << std::endl;
+                    detailsText.setString(athletisme.getDetails());
+                    textActu.setString(athletisme.majResultats());
                     fenetre = 1;
                     id = 1;
                 }
 
                 if (buttonNatation.isClicked(mousePos)) {
                     std::cout << "Bouton Natation cliqué !" << std::endl;
+                    detailsText.setString(natation.getDetails());
+                    textActu.setString(natation.majResultats());
                     fenetre = 1;
                     id = 2;
                 }
@@ -359,14 +363,10 @@ int main() {
                     fenetre = 3;
                     if (id == 1){
                         if(compte == 1){
-                            detailsText.setString(athletisme.getDetails());
-                            textActu.setString(athletisme.majResultats());
                             nouveauPari1.resultatPari();
                             textResultatsParis.setString(nouveauPari1.detailPari());
                         }
                         else{
-                            detailsText.setString(athletisme.getDetails());
-                            textActu.setString(athletisme.majResultats());
                             nouveauPari2.resultatPari();
                             textResultatsParis.setString(nouveauPari2.detailPari());
                         }
@@ -374,14 +374,10 @@ int main() {
                     }
                     else{
                         if(compte == 1){
-                            detailsText.setString(natation.getDetails());
-                            textActu.setString(natation.majResultats());
                             nouveauPari1.resultatPari();
                             textResultatsParis.setString(nouveauPari1.detailPari());
                         }
                         else{
-                            detailsText.setString(natation.getDetails());
-                            textActu.setString(natation.majResultats());
                             nouveauPari2.resultatPari();
                             textResultatsParis.setString(nouveauPari2.detailPari());
                         }
@@ -389,29 +385,33 @@ int main() {
 
                 }
 
-                if (buttonBolt.isClicked(mousePos)) {
-                    choix_participant = participantsAthletisme[0];
-                    fenetre = 4;
-                } 
-                else if (buttonLewis.isClicked(mousePos)) {
-                    choix_participant = participantsAthletisme[1];
-                    fenetre = 4;
-                } 
-                else if (buttonOwens.isClicked(mousePos)) {
-                    choix_participant = participantsAthletisme[2];
-                    fenetre = 4;
-                } 
-                else if (buttonPhelps.isClicked(mousePos)) {
-                    choix_participant = participantsNatation[0];
-                    fenetre = 4;
-                } 
-                else if (buttonThorpe.isClicked(mousePos)) {
-                    choix_participant = participantsNatation[1];
-                    fenetre = 4;
-                } 
-                else if (buttonLedecky.isClicked(mousePos)) {
-                    choix_participant = participantsNatation[2];
-                    fenetre = 4;
+                if(id == 1){
+                    if (buttonBolt.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[0];
+                        fenetre = 4;
+                    } 
+                    else if (buttonLewis.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[1];
+                        fenetre = 4;
+                    } 
+                    else if (buttonOwens.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[2];
+                        fenetre = 4;
+                    } 
+                }
+                else{
+                    if (buttonPhelps.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[0];
+                        fenetre = 4;
+                    } 
+                    else if (buttonThorpe.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[1];
+                        fenetre = 4;
+                    } 
+                    else if (buttonLedecky.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[2];
+                        fenetre = 4;
+                    }
                 }
 
                 if(ButtonMonPari.isClicked(mousePos)){
@@ -574,7 +574,7 @@ int main() {
             window.draw(sprite);
             detailsText.setFont(font);
             detailsText.setCharacterSize(16);
-            detailsText.setFillColor(sf::Color::Green);
+            detailsText.setFillColor(sf::Color::Blue);
             if (id == 1){
                 if(compte == 1){
                 detailsText.setString(athletisme.getDetails());
@@ -647,7 +647,7 @@ int main() {
             buttonDeco.draw(window);
             buttonQuit.draw(window);
 
-            window.display();
+        
             // Afficher les modifications
             //ICI pas compris pourquoi tu break avant , ptet que c'est puisque c'est pas encore au point après cette ligne 
             window.draw(textchoix);
@@ -665,7 +665,7 @@ int main() {
              // Effacer la fenêtre
             detailsText.setFont(font);
             detailsText.setCharacterSize(16);
-            detailsText.setFillColor(sf::Color::Green);
+            detailsText.setFillColor(sf::Color::Blue);
             detailsText.setPosition(50, 100); // Ajustez la position selon vos besoins
             window.draw(textActu);
             window.draw(detailsText);
