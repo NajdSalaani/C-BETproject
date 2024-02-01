@@ -269,19 +269,6 @@ int main() {
     std::ostringstream mdpInputString; //utile pour afficher ce que l'utilisateur saisie
     std::string mdp; //Pour comparer avec le mot passe du compte
 
-    /*// Déclaration d'une liste de boutons pour les participants
-    std::vector<Button> participantButtons;
-    int positionParticipantY = 10;
-    for (const auto& participant : participantsAthletisme) {
-        // Création du bouton avec le nom du participant
-        Button participantButton(sf::Vector2f(20, positionParticipantY), participant.getNom());
-        printf(" Test : %s \n",participant.getNom());
-        //Ajout du bouton à la liste
-        participantButtons.push_back(participantButton);
-
-        // Mis à jour de la position verticale
-        positionParticipantY += participantButton.getY() + 10;
-    }*/
 
     Button ButtonMonPari(sf::Vector2f(100, 200), "Mon Pari");
 
@@ -524,8 +511,7 @@ int main() {
                 else{
                     erreurText.setString( "Erreur de mot de passe" );
                 }
-                // Réinitialisez les variables pour la prochaine saisie , ici car sinon si pas dans ce if cela bloque la saisie en effaçant constamment
-                // On le fait aussi en code de déconnexion par bouton
+                // Réinitialisation les variables pour la prochaine saisie , ici car sinon si pas dans ce if cela bloque la saisie en effaçant constamment
                 mdpInputFinished = false;
                 mdpInputString.str("");
                 mdp.clear();
@@ -648,8 +634,7 @@ int main() {
             buttonQuit.draw(window);
 
         
-            // Afficher les modifications
-            //ICI pas compris pourquoi tu break avant , ptet que c'est puisque c'est pas encore au point après cette ligne 
+
             window.draw(textchoix);
             buttonDeco.draw(window);
             buttonQuit.draw(window); 
@@ -705,10 +690,7 @@ int main() {
                 else{
                     nouveauPari2.modifPari(idPari, mise, statutInitial, choix_participant);
                 }
-                // Créez une instance de Pari avec les informations obtenues
                 
-
-                // Manipulez l'instance de Pari selon vos besoins
               
 
                 mise = 0.0;
