@@ -40,6 +40,9 @@ public:
         return buttonShape.getSize().y;
     }
 
+    sf::Text getNom() const{
+        return buttonText;
+    }
 
 private:
     sf::RectangleShape buttonShape;
@@ -65,6 +68,9 @@ int main() {
      int id = 0;
      int compte = 0; //Permet le controle en fonction de l'utilisateur connecté : 0 aucun , 1 Alice , 2 Bob
      
+     int idPari = 0;
+     Participant choix_participant("", 0.0);
+
     Utilisateur utilisateur1("Alice","1234");
     Utilisateur utilisateur2("Bob","2605");
 
@@ -112,6 +118,7 @@ int main() {
 
     // Construction de la chaîne de caractères contenant les noms des événements
     std::string eventsText = "Evenements du jour :\n";
+    std::string choixDuJour = "Choisissez votre vainqueur";
     text.setString(eventsText);
 
     
@@ -137,7 +144,18 @@ int main() {
     textActu.setFillColor(sf::Color::White);
     textActu.setPosition(200, 300);
 
+    sf::Text textchoix;
+    textchoix.setFont(font);
+    textchoix.setCharacterSize(24);
+    textchoix.setFillColor(sf::Color::White);
+    textchoix.setPosition(200, 300);
+    textchoix.setString(choixDuJour);
 
+    sf::Text textResultatsParis;
+    textResultatsParis.setFont(font);
+    textResultatsParis.setCharacterSize(24);
+    textResultatsParis.setFillColor(sf::Color::White);
+    textResultatsParis.setPosition(400, 300);
     
 
     sf::Text detailsText;
@@ -183,6 +201,19 @@ int main() {
     Button buttonPhelps(sf::Vector2f(20, 10), "M.Phelps");
     Button buttonThorpe(sf::Vector2f(20, 50), "I.Thorpe");
     Button buttonLedecky(sf::Vector2f(20, 90), "K.Ledecky");
+    
+    // Déclaration d'une liste de boutons pour les participants
+
+    int positionParticipantY = 10;
+    Button participantButton1(sf::Vector2f(20, positionParticipantY), participantsAthletisme[0].getNom());
+    Button participantButton2(sf::Vector2f(20, positionParticipantY + 40), participantsAthletisme[1].getNom());
+    Button participantButton3(sf::Vector2f(20, positionParticipantY + 80), participantsAthletisme[2].getNom());
+
+    // Création des boutons pour les participants à l'épreuve de natation
+    Button participantButton4(sf::Vector2f(20, positionParticipantY), participantsNatation[0].getNom());
+    Button participantButton5(sf::Vector2f(20, positionParticipantY + 40), participantsNatation[1].getNom());
+    Button participantButton6(sf::Vector2f(20, positionParticipantY + 80), participantsNatation[2].getNom());
+    
     
     //Pour la page de connexion
     // Création du texte pour la page de connexion
@@ -252,6 +283,7 @@ int main() {
         positionParticipantY += participantButton.getY() + 10;
     }*/
 
+    Button ButtonMesParis(sf::Vector2f(100, 200), "Mes Paris");
 
     // Boucle principale de rendu
     while (window.isOpen()) {
@@ -328,6 +360,9 @@ int main() {
                     if (id == 1){
                         detailsText.setString(athletisme.getDetails());
                         textActu.setString(athletisme.majResultats());
+                        for (auto& paris : utilisateur1.getListParis()) {
+                            paris.resultatPari();
+                        }
                     }
                     else{
                         detailsText.setString(natation.getDetails());
@@ -360,7 +395,50 @@ int main() {
                 }   
             }
 
+            //Je n'ai pas compris si cette partie doit être ici ou dans la boucle des événements
+            /*
             if(fenetre == 2){
+
+                        for (auto& paris : utilisateur1.getListParis()) {
+                            paris.resultatPari();
+                        }
+                    }
+                }
+
+                if(ButtonMesParis.isClicked(mousePos)){
+                    std::cout << "Bouton MesParis clique!" << std::endl;
+                    textResultatsParis.setString(utilisateur1.getMesParis());
+                    fenetre = 5;
+                }
+
+
+
+                if(participantButton1.isClicked(mousePos) || participantButton2.isClicked(mousePos)||participantButton3.isClicked(mousePos)||participantButton4.isClicked(mousePos)||participantButton5.isClicked(mousePos)||participantButton6.isClicked(mousePos)){
+                    fenetre = 4;
+                    if (participantButton1.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[0];
+                    } 
+                    else if (participantButton2.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[1];
+                    } 
+                    else if (participantButton3.isClicked(mousePos)) {
+                        choix_participant = participantsAthletisme[2];
+                    } 
+                    else if (participantButton4.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[0];
+                    } 
+                    else if (participantButton5.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[1];
+                    } 
+                    else if (participantButton6.isClicked(mousePos)) {
+                        choix_participant = participantsNatation[2];
+                    }
+                    inputFinished = false;
+                }
+            }
+            */
+
+            if(fenetre == 4){
                 if (!inputFinished && event.type == sf::Event::TextEntered) {
                     if (isValidInput(event.text.unicode)) {
                         if (event.text.unicode == '\b' && !inputString.str().empty()) { // Gestion de la touche Backspace
@@ -459,6 +537,13 @@ int main() {
             buttonAthletisme.draw(window);
             buttonNatation.draw(window);
 
+
+            //Répétition Nécessaire ? ex deco ou quit 
+            buttonAthletisme.draw(window);
+            buttonNatation.draw(window);
+            ButtonMesParis.draw(window);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window);
             // Affichage des autres éléments de la fenêtre ici, si nécessaire
 
             // Affichage des modifications
@@ -532,6 +617,24 @@ int main() {
             window.display();
             // Afficher les modifications
             break;
+            //ICI pas compris pourquoi tu break avant , ptet que c'est puisque c'est pas encore au point après cette ligne 
+            window.draw(textchoix);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window); 
+            // Affichage des boutons des participants
+            if(id == 1){
+                participantButton1.draw(window);
+                participantButton2.draw(window);
+                participantButton3.draw(window);
+            }
+            else{
+                participantButton4.draw(window);
+                participantButton5.draw(window);
+                participantButton6.draw(window);
+            }
+            window.display();
+            break;
+            //
 
 
         case 3:
@@ -553,8 +656,57 @@ int main() {
             window.display();      
             // Afficher les modifications
             break;
+        case 4:
+           // Effacer la fenêtre
+            window.clear();
+            window.draw(sprite);
 
-        }
+             buttonRetour.draw(window);
+
+            inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+            window.draw(inputBox);
+            window.draw(inputText);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window); 
+
+            if (!inputFinished) {
+                inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+            }
+            if (inputFinished) {
+                std::cout << "Mise enregistrée : " << mise << std::endl;
+
+                Statut statutInitial = Statut::E; // Assumant que le statut initial est en cours
+
+
+                // Créez une instance de Pari avec les informations obtenues
+                Pari nouveauPari(idPari, mise, statutInitial, athletisme, choix_participant);
+
+                // Manipulez l'instance de Pari selon vos besoins
+                nouveauPari.detailPari(); // Par exemple, affichez les détails du pari
+
+                mise = 0.0;
+                idPari ++;
+                utilisateur1.ajoutPari(nouveauPari);
+
+                fenetre = 0;
+                break; 
+            }
+
+            window.display();
+            break;
+
+        case 5:
+            window.clear();
+            window.draw(sprite);
+            window.draw(textResultatsParis);
+            buttonRetour.draw(window);
+            buttonDeco.draw(window);
+            buttonQuit.draw(window); 
+            window.display();      
+            // Afficher les modifications
+            break;
+        }    
+        
         // Effacement de la fenêtre
        
     }
