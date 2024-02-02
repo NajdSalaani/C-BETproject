@@ -18,16 +18,13 @@ double Participant::getCote() const {
  Participant& Participant::operator=(const Participant& autre) {
         // Vérifier l'auto-attribution
         if (this != &autre) {
-            // Copier les attributs de l'autre participant dans le participant actuel
             this->_nom = autre._nom;
             this->_cote = autre._cote;
-            // Copiez d'autres attributs si nécessaire
         }
         return *this;
     }
 
-
+//Test d' egalite entre les attributs de 2 instances Participant
  bool Participant::operator==(const Participant& autre) const {
-        // Comparer les attributs pertinents pour déterminer l'égalité
         return (this->_nom == autre._nom && this->_cote == autre._cote);
     }

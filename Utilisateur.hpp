@@ -3,6 +3,7 @@
 #include <string>
 #include "Pari.hpp"
 
+//Classe qui definit l' utilisateur qui va faire un pari
 class Utilisateur{
     public:
     Utilisateur(const std::string& nom, const std::string& motDePasse);

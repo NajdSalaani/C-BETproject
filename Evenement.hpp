@@ -2,6 +2,7 @@
 #include <vector>
 #include "Participant.hpp"
 
+//Classe abstraite
 class EvenementSportif {
 public:
     EvenementSportif();
@@ -16,7 +17,7 @@ public:
     std:: string getNomEvenement() const;
     std::string getDetails() const;
 
-    virtual void afficherDetails() const = 0;
+    virtual void afficherDetails() const = 0;//Affiche les details de l' evenement
 
 
 protected:

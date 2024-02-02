@@ -284,6 +284,7 @@ int main() {
 
 
             // Vérification du clic sur les boutons
+            //Gestion des evenements(A chaque clique d' un bouton, l' évènement en consequence est généré)
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
                 if (buttonAthletisme.isClicked(mousePos)) {
@@ -511,7 +512,7 @@ int main() {
                 else{
                     erreurText.setString( "Erreur de mot de passe" );
                 }
-                // Réinitialisation les variables pour la prochaine saisie , ici car sinon si pas dans ce if cela bloque la saisie en effaçant constamment
+                // Réinitialisation des variables pour la prochaine saisie , ici car sinon si pas dans ce if cela bloque la saisie en effaçant constamment
                 mdpInputFinished = false;
                 mdpInputString.str("");
                 mdp.clear();
@@ -527,7 +528,7 @@ int main() {
             window.display();
             
             break;
-        case 0:
+        case 0://Fenêtre d' accueil une fois l' utilisateur connecte
              window.clear();
             // Affichage du texte des événements
             window.draw(sprite);
@@ -542,19 +543,19 @@ int main() {
             buttonNatation.draw(window);
 
 
-            //Répétition Nécessaire ? ex deco ou quit 
+            //affichage des boutons ex: deco ou quit 
             buttonAthletisme.draw(window);
             buttonNatation.draw(window);
             ButtonMonPari.draw(window);
             buttonDeco.draw(window);
             buttonQuit.draw(window);
-            // Affichage des autres éléments de la fenêtre ici, si nécessaire
+
 
             // Affichage des modifications
             window.display();
             break;
 
-        case 1:
+        case 1://affichage des details de l' evenement
             // Effacer la fenêtre
             window.clear();
             window.draw(sprite);
@@ -581,7 +582,7 @@ int main() {
                    nouveauPari2.setEvenement(natation); 
                 }
             }
-            detailsText.setPosition(50, 100); // Ajustez la position selon vos besoins
+            detailsText.setPosition(50, 100); 
             window.draw(detailsText);
             buttonRetour.draw(window);
             buttonActualiser.draw(window);
@@ -589,7 +590,7 @@ int main() {
             buttonDeco.draw(window);
             buttonQuit.draw(window);
             window.display();      
-            // Afficher les modifications
+            // Affichage des boutons
             break;
 
         case 2: 
@@ -598,9 +599,7 @@ int main() {
             window.draw(sprite);
 
             // Affichage des boutons des participants
-            /*for (const auto& button : participantButtons) {
-                button.draw(window);
-            }*/
+
             if(id == 1){
                 buttonBolt.draw(window);
                 buttonLewis.draw(window);
@@ -613,21 +612,20 @@ int main() {
              
              buttonRetour.draw(window);
 
-            inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+            inputText.setString(inputString.str()); // Mis à jour du texte affiché
             window.draw(inputBox);
             window.draw(inputText);
 
             if (!inputFinished) {
-                inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+                inputText.setString(inputString.str()); // Mis à jour du texte affiché
             }
             if (inputFinished) {
                 // L'utilisateur a terminé la saisie, nous pouvons utiliser "mise" comme valeur de la mise
                 std::cout << "Mise enregistrée : " << mise << std::endl;
-                // Vous pouvez ajouter ici le code pour traiter la mise enregistrée
                 fenetre = 0;
                 //input finished = false;
                 inputFinished = false;
-                break; // Sortir de la boucle de rendu
+                break; 
             }
 
             buttonDeco.draw(window);
@@ -651,7 +649,7 @@ int main() {
             detailsText.setFont(font);
             detailsText.setCharacterSize(16);
             detailsText.setFillColor(sf::Color::Blue);
-            detailsText.setPosition(50, 100); // Ajustez la position selon vos besoins
+            detailsText.setPosition(50, 100);
             window.draw(textActu);
             window.draw(detailsText);
             buttonRetour.draw(window);
@@ -662,26 +660,26 @@ int main() {
             window.display();      
             // Afficher les modifications
             break;
-        case 4:
+        case 4://Fenetre dans laquelle l' utilisateur peut effectuer un pari
            // Effacer la fenêtre
             window.clear();
             window.draw(sprite);
 
              buttonRetour.draw(window);
 
-            inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+            inputText.setString(inputString.str()); // Mis à jour du texte affiché
             window.draw(inputBox);
             window.draw(inputText);
             buttonDeco.draw(window);
             buttonQuit.draw(window); 
 
             if (!inputFinished) {
-                inputText.setString(inputString.str()); // Mettre à jour le texte affiché
+                inputText.setString(inputString.str()); // mise à jour du texte affiché
             }
             if (inputFinished) {
                 std::cout << "Mise enregistrée : " << mise << std::endl;
 
-                Statut statutInitial = Statut::E; // Assumant que le statut initial est en cours
+                Statut statutInitial = Statut::E; //statut initial est en cours
 
 
                 if(compte == 1){
@@ -705,7 +703,7 @@ int main() {
             window.display();
             break;
 
-        case 5:
+        case 5://Fenetre d' affichage de l' etat du pari
             window.clear();
             window.draw(sprite);
             window.draw(textResultatsParis);

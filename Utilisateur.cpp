@@ -15,7 +15,7 @@ std::string Utilisateur::getNom() const {
 }
 
 std::string Utilisateur::getMotDePasse() const {
-    return _motDePasse;  //Pas opti niveau sécurité
+    return _motDePasse;  //Renvoi le mot de passe
 }
 
 
@@ -24,7 +24,7 @@ void Utilisateur:: ajoutPari(const Pari& nouveauPari){
     _pari = nouveauPari;
 }
 
-
+//Affiche les details du pari de l' utilisateur
 std::string Utilisateur:: getMonPari() const{
     std::ostringstream detailsStream;
     detailsStream << "Mon pari :\n";

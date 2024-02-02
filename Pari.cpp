@@ -27,29 +27,7 @@ int Pari:: getId(){
     return _id;
 }
 
-/*
-void Pari:: modifCote() {
-        // Calcul de la cote moyenne parmi les participants
-        double maxCote = 0.0;
-        for (const auto& participant : _participantsChoisis) {
-            if (participant.getCote() > maxCote) {
-                maxCote = participant.getCote();
-            }
-        }
-        _cote = maxCote / _participantsChoisis.size();
-    }*/
 
-/*
-void Pari:: ajouterParticipant(const Participant& participant) {
-    _participantsChoisis.push_back(participant);
-    modifCote();
-}
-
-
-void Pari:: supprimerParticipant(const Participant& participant) {
-    _participantsChoisis.remove(participant);
-    modifCote();
-}*/
 
 void Pari::annulerPari() {
     // Réinitialiser les données du pari
@@ -67,27 +45,22 @@ void Pari::annulerPari() {
 
 
 void Pari:: resultatPari(){
-   // Vérifier si l'un des participants choisis remporte l'événement
+   // Vérifie si le participant choisi remporte l'événement
     bool participantGagnant = false;
-    /*for (const auto& participant : _participantsChoisis) {
-        if (evenement.getGagnant() == participant.getNom()) {
-            participantGagnant = true;
-            break;
-        }
-    }*/
+   
     if (_evenement.getGagnant() == _participantChoisi.getNom()){
         participantGagnant = true;
     }
 
-    // Mettre à jour le statut du pari en conséquence
+    // Mis à jour du statut du pari en conséquence
     if (participantGagnant) {
-        _statut = Statut::G; // Gagné si l'un des participants choisis remporte l'événement
+        _statut = Statut::G; // Gagné si le participant choisi remporte l'événement
     } 
     else if (_evenement.getGagnant() == "--") {
         _statut = Statut::E; // Événement en cours
     } 
     else {
-        _statut = Statut::P; // Perdu si aucun des participants choisis ne remporte l'événement
+        _statut = Statut::P; // Perdu si le participant choisi ne remporte pas l' evenement l'événement
     }
 }
 
@@ -113,9 +86,7 @@ std::string Pari:: detailPari() const {
     }
 
     detailsStream << "\nParticipant sur lequel vous avez mise :\n";
-    //for (const auto& participant : _participantsChoisis) {
-        detailsStream << " - " << _participantChoisi.getNom() << "\n";
-    //}
+    detailsStream << " - " << _participantChoisi.getNom() << "\n";
 
     detailsStream << "Evenement associe :\n";
     detailsStream << " - " << _evenement.getNomEvenement() << "\n";
@@ -145,16 +116,6 @@ Statut Pari:: getStatut() const{
 string Pari:: getChoix() const{
     std::string choix;
 
-    // Parcourir la liste des participants choisis et concaténer leur nom dans la chaîne de caractères
-    /*for (const auto& participant : _participantsChoisis) {
-        choix += participant.getNom() + ", ";
-    }
-
-    // Supprimer la virgule et l'espace en trop à la fin de la chaîne
-    if (!choix.empty()) {
-        choix.erase(choix.size() - 2); // Supprimer les deux derniers caractères
-    }*/
-
     return _participantChoisi.getNom();
 }
 
@@ -165,17 +126,13 @@ void Pari::mettreMontant(double montant){
 
 
 Pari& Pari::operator=(const Pari& autre) {
-    // Vérifier l'auto-attribution
     if (this != &autre) {
-        // Copier les attributs de l'autre pari dans le pari actuel
         _id = autre._id;
         _montantMise = autre._montantMise;
         _cote = autre._cote;
         _statut = autre._statut;
-        // L'événement est un pointeur, donc nous devons copier l'adresse
         _evenement = autre._evenement;
         _participantChoisi = autre._participantChoisi;
-        // Copiez d'autres attributs si nécessaire
     }
     return *this;
 }
@@ -264,7 +221,7 @@ void Combine:: ResultatPari(const std::list< EvenementSportif*>& listeEvenements
         }
 
 
-        // Vérifier si au moins un participant choisi est gagnant
+        // Vérification si au moins un participant choisi est gagnant
         for (const auto& participant : _participantsChoisis) {
             if (evenement->getGagnant() == participant.getNom()) {
                 auMoinsUnParticipantGagnant = true;
@@ -275,7 +232,7 @@ void Combine:: ResultatPari(const std::list< EvenementSportif*>& listeEvenements
         }
     }
 
-    // Mettre à jour le statut du pari en conséquence
+    // Mis à jour le statut du pari en conséquence
     if (tousEvenementsGagnants) {
         _statut = Statut::G; // Pari gagné si tous les événements sont gagnants et qu'au moins un participant choisi est gagnant
     } 
